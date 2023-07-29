@@ -8,20 +8,23 @@ import { createEnvFile, checkEnvFile } from './src/helpers/env';
 import Logger from './src/helpers/logger';
 
 
-dotenv.config();
 
+// Creating Instances and Setting up stuff
 const app = express();
 const logger = new Logger();
+
+dotenv.config();
+
 // Middleware
-app.use(express.json());
+app.use(express.json());    // middleware that parses incoming requests with JSON payloads
 app.use(cors());            // middleware that enables Cross-Origin Resource Sharing (CORS) in Express.js.
-app.use(helmet());          //  adds various security headers to enhance the security of your application.
+app.use(helmet());          // adds various security headers to enhance the security of your application.
 
 // Check if the environment file exists, if not, create it
 if (!checkEnvFile()) createEnvFile([
-  { key: 'PORT', value: '5000' },
-  { key: 'NODE_ENV', value: 'development' },
-  { key: 'DB_HOST', value: 'localhost' },
+  { key: 'PORT', value: '3000' },
+  { key: "node_env", value: "development" },
+  { key: 'MONGODB_URI', value: '' },
 ])
 
 // Routes
@@ -30,7 +33,7 @@ if (!checkEnvFile()) createEnvFile([
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  logger.error(err.stack);
   res.status(500).json({ error: 'Internal Server Error' });
 });
 

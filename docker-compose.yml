@@ -1,0 +1,61 @@
+# Text generated with: https://patorjk.com/software/taag/#p=display&f=Slant&t=API-Gateway
+# Font: Slant
+
+version: '3.8'
+
+
+services:
+#       ____                          _____                 _         
+#      /  _/___ ___  ____ _____ ____ / ___/___  ______   __(_)_______ 
+#      / // __ `__ \/ __ `/ __ `/ _ \\__ \/ _ \/ ___/ | / / / ___/ _ \
+#    _/ // / / / / / /_/ / /_/ /  __/__/ /  __/ /   | |/ / / /__/  __/
+#   /___/_/ /_/ /_/\__,_/\__, /\___/____/\___/_/    |___/_/\___/\___/ 
+#                       /____/                                        
+  ms_imageservice:
+    image: ms_imageservice:latest
+    networks:
+      - memories
+    expose:
+      - "5000"
+    ports:
+      - "5000"
+    deploy:
+      replicas: 3
+      placement:
+        constraints:
+          - node.role == worker
+    volumes:
+    - shared_data:/app/S3
+
+#       ___    ____  ____     ______      __                          
+#      /   |  / __ \/  _/    / ____/___ _/ /____ _      ______ ___  __
+#     / /| | / /_/ // /_____/ / __/ __ `/ __/ _ \ | /| / / __ `/ / / /
+#    / ___ |/ ____// /_____/ /_/ / /_/ / /_/  __/ |/ |/ / /_/ / /_/ / 
+#   /_/  |_/_/   /___/     \____/\__,_/\__/\___/|__/|__/\__,_/\__, /  
+#                                                            /____/   
+  aphBlog_wDMePj22:
+    image: aphBlog_wDMePj22:latest
+    environment:
+      - node_env=production
+    ports:
+      - "3000"
+    deploy:
+      replicas: 3
+      placement:
+        constraints:
+          - node.role == worker
+
+  nginx:
+    image: nginx:latest
+    networks:
+      - memories
+    ports:
+      - "80:80"
+      - "3000:3000"
+    depends_on:
+      - aphBlog_wDMePj22
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
+
+volumes:
+  shared_data:
