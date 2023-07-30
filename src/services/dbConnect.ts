@@ -1,22 +1,30 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
+import Logger from '../helpers/logger';
+
+const logger = new Logger();
+
 dotenv.config();
 
 const { MONGODB_URI } = process.env;
 
 if (!MONGODB_URI) {
-  console.error('MongoDB URI not found in the .env file.');
+  logger.error('No MongoDB URI provided.');
   process.exit(1);
 }
 
 export const connectToDatabase = async (): Promise<void> => {
   try {
     await mongoose.connect(MONGODB_URI);
-
-    console.log('Connected to MongoDB.');
   } catch (error) {
-    console.error('Error connecting to MongoDB:', error.message);
-    process.exit(1);
+    // Handle different types of errors, if needed
+    if (error instanceof Error) {
+      logger.error('Error connecting to MongoDB:', error.message);
+    } else {
+      logger.error('Unknown error occurred while connecting to MongoDB.');
+    }
+
+    throw error; // Propagate the error to the calling code
   }
 };

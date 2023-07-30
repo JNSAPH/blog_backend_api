@@ -5,9 +5,11 @@ import helmet from 'helmet';
 
 // Custom imports
 import { createEnvFile, checkEnvFile } from './src/helpers/env';
+import { connectToDatabase } from './src/services/dbConnect';
 import Logger from './src/helpers/logger';
 
-
+// Routes
+import PostRoutes from './src/routes/PostRoutes';
 
 // Creating Instances and Setting up stuff
 const app = express();
@@ -25,10 +27,20 @@ if (!checkEnvFile()) createEnvFile([
   { key: 'PORT', value: '3000' },
   { key: "node_env", value: "development" },
   { key: 'MONGODB_URI', value: '' },
+  { key: "SECRET", value: 'secret' }, // this is horrible, i know.
 ])
 
+// Connect to the database
+connectToDatabase()
+.then(() => logger.info('Connected to MongoDB.'))
+.catch((error) => {
+  logger.error('Error connecting to MongoDB:', error.message);
+  process.exit(1);
+});
+
 // Routes
-//app.use('/', serviceRoutes) 
+app.use('/post', PostRoutes); // Retrival Route for Blog Posts
+//app.use('/admin', adminRoutes); // Admin Routes
 
 
 // Error handling middleware
