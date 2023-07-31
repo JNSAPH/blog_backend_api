@@ -9,12 +9,12 @@ dotenv.config();
 
 const { MONGODB_URI } = process.env;
 
-if (!MONGODB_URI) {
-  logger.error('No MongoDB URI provided.');
-  process.exit(1);
-}
 
 export const connectToDatabase = async (): Promise<void> => {
+  if (!MONGODB_URI) {
+    logger.error('No MongoDB URI provided.');
+    process.exit(1);
+  }
   try {
     await mongoose.connect(MONGODB_URI);
   } catch (error) {

@@ -2,10 +2,19 @@ import express, { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import { createResponse } from './responseCreator';
+import Logger from './logger';
 
 dotenv.config();
 
+const logger = new Logger();
+
+// if jwt secret not provided kill
+
 export const generateToken = (user) => {
+    if (!process.env.JWT_SECRET) {
+        logger.error('JWT_SECRET not provided');
+        process.exit(1);
+    }
     const payload = {
         user: {
             id: user.id
