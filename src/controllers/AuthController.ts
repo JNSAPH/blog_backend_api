@@ -6,6 +6,7 @@ import { generateToken, verifyToken } from '../helpers/jwt';
 import User from '../models/User';
 
 import Logger from '../helpers/logger';
+import { comparePassword } from '../helpers/usermanager';
 
 const logger = new Logger();
 
@@ -23,14 +24,15 @@ export const AuthController = {
             const { username, password } = req.body;
 
             // Check for User in DB
-            const user = User.findOne({ username: req.body.username });
+            const user = await User.findOne({ username: req.body.username });
 
             // Throw an error if the user doesn't exist
-            if (!user[0]) throw new Error(`User ${username} not found`);
+            if (!user) throw new Error(`User ${username} not found`);
 
-            const token = await generateToken(user);
+            // Check if the password is correct
+            if (!await comparePassword(password, user.password)) throw new Error('Incorrect password');
 
-            res.status(200).json(createResponse(200, token));
+            res.status(200).json(createResponse(200, await generateToken(user)));
         } catch (error) {
             logger.error(error);
             return res.status(400).json(createResponse(400, error.message));

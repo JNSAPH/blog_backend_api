@@ -11,6 +11,7 @@ import Logger from './src/helpers/logger';
 // Routes
 import PostRoutes from './src/routes/PostRoutes';
 import AuthRoutes from './src/routes/AuthRoutes';
+import UserRoutes from './src/routes/UserRoutes';
 
 // Creating Instances and Setting up stuff
 const app = express();
@@ -30,6 +31,7 @@ if (!checkEnvFile()) createEnvFile([
   { key: "node_env", value: "development" },
   { key: 'MONGODB_URI', value: '' },
   { key: "JWT_SECRET", value: 'secret' }, // this is horrible, i know.
+  { key: "SALT", value: 'secret'}
 ])
 
 // Connect to the database
@@ -43,6 +45,7 @@ connectToDatabase()
 // Routes
 app.use('/post', PostRoutes); // Retrival Route for Blog Posts
 app.use('/auth', AuthRoutes); // Admin Routes
+app.use('/userMgmt', UserRoutes); // User Management Routes
 
 
 // Error handling middleware
