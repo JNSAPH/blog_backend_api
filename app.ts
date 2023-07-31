@@ -18,9 +18,10 @@ const logger = new Logger();
 dotenv.config();
 
 // Middleware
-app.use(express.json());    // middleware that parses incoming requests with JSON payloads
-app.use(cors());            // middleware that enables Cross-Origin Resource Sharing (CORS) in Express.js.
-app.use(helmet());          // adds various security headers to enhance the security of your application.
+app.use(express.json());                          // middleware that parses incoming requests with JSON payloads
+app.use(express.urlencoded({ extended: true }));  // middleware that parses incoming requests with urlencoded payloads
+app.use(cors());                                  // middleware that enables Cross-Origin Resource Sharing (CORS) in Express.js.
+app.use(helmet());                                // adds various security headers to enhance the security of your application.
 
 // Check if the environment file exists, if not, create it
 if (!checkEnvFile()) createEnvFile([

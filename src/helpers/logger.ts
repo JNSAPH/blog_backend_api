@@ -18,7 +18,7 @@ import chalk from 'chalk';
 export default class Logger {
     private showDebugLogs: boolean;
   
-    constructor(showDebugLogs: boolean = false) {
+    constructor(showDebugLogs: boolean = true) {
       this.showDebugLogs = showDebugLogs;
     }
 
