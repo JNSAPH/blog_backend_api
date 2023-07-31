@@ -1,6 +1,7 @@
 import express from 'express';
 import { UserController } from '../controllers/UserController';
-import { query, header, body } from 'express-validator';
+import { header, body } from 'express-validator';
+import { verifyToken } from '../helpers/jwt';
 
 const router = express.Router();
 
@@ -19,8 +20,8 @@ const validateDeleteUser = [
 
 
 // Routes
-router.get('/getUsers', validategetGetUsers, UserController.getUsers);
-router.get('/createUser', validateCreateUser, UserController.createUser);
-router.get('/deleteUser', validateDeleteUser, UserController.deleteUser);
+router.get('/getUsers', validategetGetUsers, verifyToken, UserController.getUsers);
+router.get('/createUser', validateCreateUser, verifyToken, UserController.createUser);
+router.get('/deleteUser', validateDeleteUser, verifyToken, UserController.deleteUser);
 
 export default router;

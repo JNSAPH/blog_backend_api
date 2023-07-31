@@ -1,6 +1,7 @@
 import express from 'express';
 import { PostController } from '../controllers/PostController';
 import { query, header, body } from 'express-validator';
+import { verifyToken } from '../helpers/jwt';
 
 const router = express.Router();
 
@@ -23,6 +24,6 @@ const validatePutPost = [
 // Routes
 router.get('/getListOfPosts', validategetListOfPosts, PostController.getListOfPosts);
 router.get('/getPostById', postById, PostController.getPostById);
-router.put('/putPost', validatePutPost, PostController.putPost);
+router.put('/putPost', validatePutPost, verifyToken, PostController.putPost);
 
 export default router;

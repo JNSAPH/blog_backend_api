@@ -32,7 +32,7 @@ export const AuthController = {
             // Check if the password is correct
             if (!await comparePassword(password, user.password)) throw new Error('Incorrect password');
 
-            res.status(200).json(createResponse(200, await generateToken(user)));
+            res.status(200).json(createResponse(200, await generateToken(user.username)));
         } catch (error) {
             logger.error(error);
             return res.status(400).json(createResponse(400, error.message));
