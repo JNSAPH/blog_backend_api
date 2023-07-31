@@ -10,6 +10,10 @@ const validategetListOfPosts = [
   query('pageSize').bail().isInt({ min: 1 }).withMessage('PageSize must be an integer between 1 and 100'),
 ];
 
+const postById = [
+  query('id').bail().isString().notEmpty().withMessage('Id must be a string'),
+];
+
 const validatePutPost = [
   header('title').bail().isString().notEmpty().withMessage('Title must be a string'),
   //header('image').bail().isString().withMessage('Image must be a string'),
@@ -18,6 +22,7 @@ const validatePutPost = [
 
 // Routes
 router.get('/getListOfPosts', validategetListOfPosts, PostController.getListOfPosts);
+router.get('/getPostById', postById, PostController.getPostById);
 router.put('/putPost', validatePutPost, PostController.putPost);
 
 export default router;

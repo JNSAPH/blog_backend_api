@@ -27,7 +27,7 @@ export const PostController = {
     try {
       // Fetch actual posts from the database
       const totalPosts = await PostSchema.countDocuments(); // Get the total number of posts in the database
-      const posts = await PostSchema.find().skip(offset).limit(limit).sort({ date: -1 });
+      const posts = await PostSchema.find().skip(offset).limit(limit).sort({ date: -1 }).select('id title image date author');;
 
       // Return paginated response
       res.json(createResponse(200, {
@@ -41,6 +41,32 @@ export const PostController = {
       res.status(500).json({ error: 'Internal server error' });
     }
   },
+
+  getPostById: async (req: Request, res: Response) => {
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    // Extract the id property from the query string
+    const id = req.query.id as string;
+
+    try {
+      // Fetch the post from the database
+      const post = await PostSchema.find({ id })
+
+      // Throw an error if the post doesn't exist
+      if (!post[0]) throw new Error('Post not found');
+
+      // Return the post
+      res.json(createResponse(200, post));
+    } catch (err) {
+      logger.error('Error while fetching post:', err);
+      res.status(500).json(createResponse(500, err.message, true));
+    }
+  },
+
   putPost: async (req: Request, res: Response) => {
     try {
       // Check for validation errors
