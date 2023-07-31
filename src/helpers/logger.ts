@@ -41,7 +41,7 @@ export default class Logger {
      */
     public info(...messages: any[]): void {
       const message = messages.join(' ');
-      console.log(chalk.blueBright("INFO") + "    | " + message);
+      console.info(chalk.blueBright("INFO") + "    | " + message);
     }
 
     /**
@@ -51,7 +51,7 @@ export default class Logger {
      */
     public warning(...messages: any[]): void {
       const message = messages.join(' ');
-      console.log(chalk.yellow("WARNING") + " | " + message);
+      console.warn(chalk.yellow("WARNING") + " | " + message);
     }
   
     /**
@@ -71,7 +71,7 @@ export default class Logger {
         message += ` | Error: ${error.name} - ${error.message}`;
       }
   
-      console.log(chalk.red("ERROR") + "   | " + message);
+      console.error(chalk.red("ERROR") + "   | " + message);
     }
   
     /**
