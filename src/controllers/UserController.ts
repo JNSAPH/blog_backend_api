@@ -19,13 +19,14 @@ export const UserController = {
     
         try {
             // get all users from db and send the usernames back
+            const Users = await User.find();
             
-    
-        } catch (error) {
-            
-        }
+            const usernames = Users.map((user) => user.username);
 
-        res.status(500).json(createResponse(500, 'Not implemented', false));
+            res.status(200).json(createResponse(200, usernames, false));
+        } catch (error) {
+            res.status(500).json(createResponse(500, error.message, true));
+        }
 
     },
     createUser: async (req: Request, res: Response) => {
