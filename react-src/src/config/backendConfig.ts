@@ -1,1 +1,0 @@
-export const backendIP = "http://localhost:5000";
