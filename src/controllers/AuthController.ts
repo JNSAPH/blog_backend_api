@@ -11,6 +11,24 @@ import { comparePassword } from '../helpers/usermanager';
 const logger = new Logger();
 
 export const AuthController = {
+    /**
+     * @api {post} /auth/login Login
+     * @apiName Login
+     * @apiGroup Auth
+     * @apiVersion  1.0.0
+     * @apiBody {String} username Username
+     * @apiBody {String} password Password
+     * @apiSuccess (200) {String} token JWT Token
+     * @apiSuccessExample {json} Success-Response:
+     * {
+     *  "statusCode": 200,
+     *  "error": false,
+     *  "body": <JWT Token>
+     * }
+     * @apiError (400) {json} Missing parameters
+     * @apiError (500) {json} Internal server error
+     * @apiError (500) {json} User <USER> not found
+     */
     login: async (req: Request, res: Response) => {
         // Check for validation errors
         const errors = validationResult(req);

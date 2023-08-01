@@ -10,6 +10,24 @@ import { hashPassword } from '../helpers/usermanager';
 const logger = new Logger();
 
 export const UserController = {
+    /**
+     * @api {get} /users/getUsers Get list of users
+     * @apiName GetUsers
+     * @apiGroup Users
+     * @apiVersion  1.0.0
+     * @apiSuccess (200) {Object} users List of users
+     * @apiSuccessExample {json} Success-Response:
+     * {
+	"statusCode": 200,
+	"error": false,
+	"body": [
+		"Test2",
+		"Test8"
+	]
+}
+        * @apiError (400) {json} Missing parameters
+        * @apiError (500) {json} Internal server error
+     */
     getUsers: async (req: Request, res: Response) => {
         // Check for validation errors
         const errors = validationResult(req);
@@ -29,6 +47,23 @@ export const UserController = {
         }
 
     },
+    /**
+     * @api {post} /users/createUser Create user
+     * @apiName CreateUser
+     * @apiGroup Users
+     * @apiVersion  1.0.0
+     * @apiBody {String} username Username
+     * @apiBody {String} password Password
+     * @apiSuccess (200) {String} token JWT Token
+     * @apiSuccessExample {json} Success-Response:
+     * {
+	"statusCode": 200,
+	"error": false,
+	"body": "User created"
+}
+        * @apiError (400) {json} Missing parameters
+        * @apiError (500) {json} Internal server error
+     */
     createUser: async (req: Request, res: Response) => {
         // Check for validation errors
         const errors = validationResult(req);
@@ -53,6 +88,24 @@ export const UserController = {
             return res.status(500).json(createResponse(500, error.message, true));
         }
     },
+
+    /**
+     * @api {delete} /users/deleteUser Delete user
+     * @apiName DeleteUser
+     * @apiGroup Users
+     * @apiVersion  1.0.0
+     * @apiBody {String} username Username
+     * @apiSuccess (200) {String} token JWT Token
+     * @apiSuccessExample {json} Success-Response:
+     * {
+	"statusCode": 200,
+	"error": false,
+	"body": "User deleted"
+}
+        * @apiError (400) {json} Missing parameters
+        * @apiError (500) {json} Internal server error
+        * @apiError (500) {json} User not found
+     */
     deleteUser: async (req: Request, res: Response) => {
         // Check for validation errors
         const errors = validationResult(req);

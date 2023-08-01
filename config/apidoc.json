@@ -1,0 +1,6 @@
+{
+    "name": "blog",
+    "version": "1.0.0",
+    "description": "A blog built with Node.js, Express, Mongoose",
+    "title": "Blog"
+}

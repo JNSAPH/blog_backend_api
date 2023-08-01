@@ -9,6 +9,37 @@ import { createResponse } from '../helpers/responseCreator';
 const logger = new Logger();
 
 export const PostController = {
+  /**
+   * @api {get} /posts/getListOfPosts?page=<NUMBER>&pageSize=<NUMBER> Get list of posts
+   * @apiName GetPosts
+   * @apiGroup Posts
+   * @apiVersion  1.0.0
+   * @apiParam  {Number} page Page number
+   * @apiParam  {Number} pageSize Page size
+   * @apiSuccess (200) {Object} posts List of posts
+   * @apiSuccessExample {json} Success-Response:
+   * {
+   *	"statusCode": 200,
+   *	"error": false,
+   *	"body": {
+   *		"page": 1,
+   *		"pageSize": 1,
+   *		"totalPosts": 17,
+   *		"posts": [
+   *			{
+   *				"_id": "64c828abacdd4431d1c0a710",
+   *				"title": "latest",
+   *				"image": "https://source.unsplash.com/random",
+   *				"author": "Admin",
+   *				"id": "994dc657-bf0a-4a0c-932e-f9ee1e3ea92d",
+   *				"date": "2023-07-31T21:33:31.485Z"
+   *			}
+   *		]
+   *	}
+   *}
+    * @apiError (400) {json} Missing parameters
+    * @apiError (500) {json} Internal server error
+   */
   getListOfPosts: async (req: Request, res: Response) => {
     // Check for validation errors
     const errors = validationResult(req);
@@ -42,6 +73,34 @@ export const PostController = {
     }
   },
 
+  /**
+   * 
+   * @api {get} /posts/getPostById?id=<UUID> Get post by id
+   * @apiName GetPostById
+   * @apiGroup Posts
+   * @apiVersion  1.0.0
+   * @apiParam  {String} id Post id
+   * @apiSuccess (200) {Object} post Post
+   * @apiSuccessExample {json} Success-Response:
+   * {
+  "statusCode": 200,
+  "error": false,
+  "body": [
+    {
+      "_id": "64c7f8faf4e350100206d84e",
+      "title": "latest",
+      "image": "https://source.unsplash.com/random",
+      "content": "Hello World Change",
+      "author": "Admin",
+      "id": "e9b3d1d0-6a31-45c3-8c24-0b27315ab7d1",
+      "date": "2023-07-31T18:10:02.271Z",
+      "__v": 0
+    }
+  ]
+}
+    * @apiError (400) {json} Missing parameters
+    * @apiError (500) {json} Internal server error
+   */
   getPostById: async (req: Request, res: Response) => {
     // Check for validation errors
     const errors = validationResult(req);
@@ -67,6 +126,33 @@ export const PostController = {
     }
   },
 
+  /**
+   * 
+   * @api {put} /posts/putPost Create post
+   * @apiName PutPost
+   * @apiGroup Posts
+   * @apiVersion  1.0.0
+   * @apiHeader  {String} title Post title
+   * @apiBody  {String} content Post content
+   * @apiSuccess (200) {Object} post Post
+   * @apiSuccessExample {json} Success-Response:
+   * {
+  "statusCode": 200,
+  "error": false,
+  "body": {
+    "title": "latest",
+    "image": "https://source.unsplash.com/random",
+    "content": "Hello",
+    "author": "Admin",
+    "_id": "64c828abacdd4431d1c0a710",
+    "id": "994dc657-bf0a-4a0c-932e-f9ee1e3ea92d",
+    "date": "2023-07-31T21:33:31.485Z",
+    "__v": 0
+  }
+}
+    * @apiError (400) {json} Missing parameters
+    * @apiError (500) {json} Internal server error
+   */
   putPost: async (req: Request, res: Response) => {
     try {
       // Check for validation errors
@@ -99,6 +185,25 @@ export const PostController = {
       res.status(500).json(createResponse(500, error.message, true));
     }
   },
+
+  /**
+   * @api {post} /posts/editPost Edit post
+   * @apiName EditPost
+   * @apiGroup Posts
+   * @apiVersion  1.0.0
+   * @apiHeader  {String} title Post title
+   * @apiBody  {String} content Post content
+   * @apiSuccess (200) {Object} post Post
+   * @apiSuccessExample {json} Success-Response:
+   * {
+        "statusCode": 200,
+        "error": false,
+        "body": "Post edited successfully."
+      }
+    * @apiError (500) {json} Internal server error
+    * @apiError (400) {json} Missing parameters
+    * @apiError (404) {json} Post not found
+   */
   editPost: async (req: Request, res: Response) => {
     try {
       // Check for validation errors
@@ -135,6 +240,23 @@ export const PostController = {
     }
   },
 
+  /**
+   * @api {delete} /posts/deletePost Delete post
+   * @apiName DeletePost
+   * @apiGroup Posts
+   * @apiVersion  1.0.0
+   * @apiHeader  {String} id Post id
+   * @apiSuccess (200) {Object} post Post
+   * @apiSuccessExample {json} Success-Response:
+   * {
+	"statusCode": 200,
+	"error": false,
+	"body": "Post deleted successfully."
+}
+    * @apiError (400) {json} Missing parameters
+    * @apiError (500) {json} Internal server error
+    * @apiError (500) {json} Post not found
+   */
   deletePost: async (req: Request, res: Response) => {
     // Check for validation errors
     const errors = validationResult(req);
