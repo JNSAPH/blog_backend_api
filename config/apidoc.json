@@ -1,6 +1,6 @@
 {
-    "name": "blog",
+    "name": "blog_backend_api",
     "version": "1.0.0",
-    "description": "A blog built with Node.js, Express, Mongoose",
-    "title": "Blog"
+    "description": "blog_backend_api is a robust and versatile backend API that provides essential functionalities for blog management.",
+    "title": "blog_backend_api"
 }
