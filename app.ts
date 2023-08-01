@@ -12,6 +12,7 @@ import Logger from './src/helpers/logger';
 import PostRoutes from './src/routes/PostRoutes';
 import AuthRoutes from './src/routes/AuthRoutes';
 import UserRoutes from './src/routes/UserRoutes';
+import UIRoutes from './src/routes/UIRoutes';
 
 // Creating Instances and Setting up stuff
 const app = express();
@@ -46,6 +47,7 @@ connectToDatabase()
 app.use('/post', PostRoutes); // Retrival Route for Blog Posts
 app.use('/auth', AuthRoutes); // Admin Routes
 app.use('/userMgmt', UserRoutes); // User Management Routes
+app.use('/admin', UIRoutes); // User Management Routes
 
 
 // Error handling middleware

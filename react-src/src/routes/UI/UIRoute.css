@@ -1,0 +1,27 @@
+/* Add this CSS either in a separate stylesheet or within your component (e.g., using styled-components) */
+.ui-body {
+    height: 100vh;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    background-color: #2196F3;
+    color: #fff;
+    padding: 16px;
+}
+
+.header h1 {
+    margin: 0;
+    flex-grow: 1;
+    font-size: 20px;
+}
+
+.header button {
+    background-color: #fff;
+    color: #2196F3;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}

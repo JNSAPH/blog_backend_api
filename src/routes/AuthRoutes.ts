@@ -12,6 +12,6 @@ const validategetLogin = [
 
 
 // Routes
-router.get('/login', validategetLogin, AuthController.login);
+router.post('/login', validategetLogin, AuthController.login);
 
 export default router;

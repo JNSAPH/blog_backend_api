@@ -30,6 +30,8 @@ export const checkEnvFile = (): Boolean => {
     const envFilePath = '.env';
     const envExampleFilePath = '.env.example';
 
+    if(process.env.NODE_ENV === 'production') return true;
+
     // Check if the environment file exists
     if (!fs.existsSync(envFilePath)) {
         logger.warning(`The environment file ${envFilePath} does not exist`);

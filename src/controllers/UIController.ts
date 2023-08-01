@@ -10,7 +10,7 @@ import { comparePassword } from '../helpers/usermanager';
 
 const logger = new Logger();
 
-export const AuthController = {
+export const UIController = {
     login: async (req: Request, res: Response) => {
         // Check for validation errors
         const errors = validationResult(req);
@@ -35,7 +35,7 @@ export const AuthController = {
             res.status(200).json(createResponse(200, await generateToken(user.username)));
         } catch (error) {
             logger.error(error);
-            return res.status(400).json(createResponse(400, error.message, true));
+            return res.status(400).json(createResponse(400, error.message));
         }
     }
 };

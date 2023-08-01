@@ -15,6 +15,7 @@ export const connectToDatabase = async (): Promise<void> => {
     logger.error('No MongoDB URI provided.');
     process.exit(1);
   }
+  
   try {
     await mongoose.connect(MONGODB_URI);
   } catch (error) {
