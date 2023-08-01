@@ -21,9 +21,22 @@ const validatePutPost = [
   body('content').bail().isString().notEmpty().withMessage('Content must be a string'),
 ];
 
+const validateEditPost = [
+  body('id').bail().isString().notEmpty().withMessage('id must be a string'),
+  body('content').bail().isString().notEmpty().withMessage('Content must be a string'),
+  body('title').bail().isString().notEmpty().withMessage('Title must be a string'),
+  //body('image').bail().isString().withMessage('Image must be a string'),
+];
+
+const validateDeletePost = [
+  body('id').bail().isString().notEmpty().withMessage('id must be a string'),
+];
+
 // Routes
 router.get('/getListOfPosts', validategetListOfPosts, PostController.getListOfPosts);
 router.get('/getPostById', postById, PostController.getPostById);
 router.put('/putPost', validatePutPost, verifyToken, PostController.putPost);
+router.post('/editPost', validateEditPost, verifyToken, PostController.editPost);
+router.delete('/deletePost', validateDeletePost, verifyToken, PostController.deletePost);
 
 export default router;

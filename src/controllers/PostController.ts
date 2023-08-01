@@ -98,5 +98,66 @@ export const PostController = {
       logger.error("Error creating Post:", error.message);
       res.status(500).json(createResponse(500, error.message, true));
     }
-  }
+  },
+  editPost: async (req: Request, res: Response) => {
+    try {
+      // Check for validation errors
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      // Extract the title and content from the request body
+      const { id } = req.body;
+      const { content } = req.body;
+      const { title } = req.headers;
+      //const { image } = req.body;
+
+      // Create a new post in mongodb
+      const post = await PostSchema.findOneAndUpdate({ id }, {
+        title,
+        content,
+        //image,
+      });
+
+      if (!post) throw new Error('Post not found');
+
+      // Save the post
+      await post.save();
+
+      // Return success response
+      res.status(200).json(createResponse(200, "Post edited successfully."));
+      logger.debug("Post edited successfully.");
+
+    } catch (error) {
+      logger.error("Error editing Post:", error.message);
+      res.status(404).json(createResponse(404, error.message, true));
+    }
+  },
+
+  deletePost: async (req: Request, res: Response) => {
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    // Extract the id property from the query string
+    const { id } = req.body;
+
+    try {
+      // Fetch the post from the database
+      const post = await PostSchema.findOneAndDelete({ id })
+
+      // Throw an error if the post doesn't exist
+      if (!post) throw new Error('Post not found');
+
+      // Return the post
+      res.json(createResponse(200, "Post deleted successfully."));
+    } catch (err) {
+      logger.error('Error while deleting post:', err);
+      res.status(500).json(createResponse(500, err.message, true));
+    }
+  },
+
 };
