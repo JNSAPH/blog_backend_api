@@ -21,7 +21,7 @@ const validateDeleteUser = [
 
 // Routes
 router.get('/getUsers', validategetGetUsers, verifyToken, UserController.getUsers);
-router.get('/createUser', validateCreateUser, verifyToken, UserController.createUser);
-router.get('/deleteUser', validateDeleteUser, verifyToken, UserController.deleteUser);
+router.post('/createUser', validateCreateUser, verifyToken, UserController.createUser);
+router.delete('/deleteUser', validateDeleteUser, verifyToken, UserController.deleteUser);
 
 export default router;

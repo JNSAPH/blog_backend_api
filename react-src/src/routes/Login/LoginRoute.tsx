@@ -22,9 +22,9 @@ const Login = () => {
         } else {
             setError('');
             // save response.body to local storage
-            localStorage.setItem('user', JSON.stringify(response.body));
+            localStorage.setItem('user', response.body);
             // redirect to home page
-            window.location.href = '/';
+            window.location.href = '/blog/posts';
         }
 
     };
